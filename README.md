@@ -18,7 +18,7 @@ Add the following line to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  month_picker: latest_version
+  mp_month_picker: latest_version
 ```
 
 Then, run:
@@ -33,7 +33,7 @@ Here's a basic example of how to use `MpMonthPicker` in your Flutter project:
 
 ```dart
 import 'package:flutter/material.dart';
-import 'package:month_picker/month_picker.dart';
+import 'package:mp_month_picker/mp_month_picker.dart';
 
 void main() {
   runApp(MyApp());
