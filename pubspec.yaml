@@ -1,7 +1,9 @@
 name: mp_month_picker
 description: "A new Flutter project."
 version: 0.0.1
-homepage:
+repository: https://github.com/kamranibrahim/mp_month_picker.git
+issue_tracker: https://github.com/kamranibrahim/mp_month_picker/issues
+license: MIT
 
 environment:
   sdk: '>=3.4.4 <4.0.0'
