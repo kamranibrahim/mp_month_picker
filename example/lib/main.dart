@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mp_month_picker/month_picker.dart';
+import 'package:mp_month_picker/mp_month_picker.dart';
 
 void main() {
   runApp(const MyApp());

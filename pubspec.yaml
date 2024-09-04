@@ -1,5 +1,5 @@
 name: mp_month_picker
-description: "A new Flutter project."
+description: "A customizable Flutter package to select a month and year in a dialog with various options like transition effects, localization, and flexible UI components, ideal for scheduling and date selection features."
 version: 0.0.1
 homepage: https://github.com/kamranibrahim/mp_month_picker.git
 repository: https://github.com/kamranibrahim/mp_month_picker.git
@@ -24,6 +24,10 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
+linter:
+  rules:
+    public_member_api_docs: true
+
 flutter:
 
   # To add assets to your package, add an assets section, like this:

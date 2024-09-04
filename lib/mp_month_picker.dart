@@ -1,9 +1,20 @@
+/// A customizable Flutter package to select a month and year in a dialog.
+///
+/// This package provides various options like transition effects,
+/// and flexible UI components, ideal for scheduling
+/// and date selection features.
+
 library mp_month_picker;
 
 import 'package:flutter/material.dart';
 
 /// A widget that displays a dialog to pick a month and year.
+/// It allows customization of colors, transition effects,
 class MpMonthPicker extends StatefulWidget {
+  /// Creates a [MpMonthPicker] widget.
+  ///
+  /// The [initialDate], [firstDate], [lastDate], and [onMonthChanged] are required.
+
   final DateTime initialDate;
   final DateTime firstDate;
   final DateTime lastDate;
@@ -87,7 +98,8 @@ class _MpMonthPickerState extends State<MpMonthPicker> {
                 _buildHeader(),
                 AnimatedSwitcher(
                   duration: widget.transitionDuration,
-                  transitionBuilder: (Widget child, Animation<double> animation) {
+                  transitionBuilder:
+                      (Widget child, Animation<double> animation) {
                     final fadeTransition = FadeTransition(
                       opacity: animation,
                       child: child,
@@ -97,60 +109,75 @@ class _MpMonthPickerState extends State<MpMonthPicker> {
                   child: GridView.builder(
                     key: ValueKey<int>(_selectedDate.month),
                     shrinkWrap: true,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
                       childAspectRatio: 2,
                     ),
                     itemCount: 12,
                     itemBuilder: (context, index) {
                       final month = index + 1;
-                      final isSelected = _selectedDate.month == month && _selectedDate.year == widget.initialDate.year;
+                      final isSelected = _selectedDate.month == month &&
+                          _selectedDate.year == widget.initialDate.year;
                       final isEnabled = _isMonthEnabled(month);
 
                       return GestureDetector(
-                        onTap: isEnabled ? () {
-                          setState(() {
-                            _selectedDate = DateTime(_selectedDate.year, month);
-                            if(widget.isAutoSelect){
-                              widget.onMonthChanged(_selectedDate);
-                            }
-                          });
-                        } : null,
+                        onTap: isEnabled
+                            ? () {
+                                setState(() {
+                                  _selectedDate =
+                                      DateTime(_selectedDate.year, month);
+                                  if (widget.isAutoSelect) {
+                                    widget.onMonthChanged(_selectedDate);
+                                  }
+                                });
+                              }
+                            : null,
                         child: Container(
                           margin: const EdgeInsets.all(6.0),
                           decoration: BoxDecoration(
                             color: isSelected
                                 ? widget.selectedMonthColor ?? Colors.deepPurple
-                                : widget.unselectedMonthColor ?? Colors.transparent,
-                            borderRadius: widget.selectedMonthBorderRadius ?? BorderRadius.circular(12),
+                                : widget.unselectedMonthColor ??
+                                    Colors.transparent,
+                            borderRadius: widget.selectedMonthBorderRadius ??
+                                BorderRadius.circular(12),
                           ),
                           alignment: Alignment.center,
                           child: Text(
                             _getMonthName(month),
                             style: widget.monthTextStyle?.copyWith(
-                              color: isSelected
-                                  ? Colors.white
-                                  : (isEnabled
-                                  ? widget.monthTextStyle?.color ?? Colors.black
-                                  : Colors.grey),
-                              fontWeight: isSelected
-                                  ? FontWeight.bold
-                                  : widget.monthTextStyle?.fontWeight ?? FontWeight.normal,
-                            ) ?? TextStyle(
-                              color: isSelected
-                                  ? Colors.white
-                                  : (isEnabled ? Colors.black : Colors.grey),
-                              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                            ),
+                                  color: isSelected
+                                      ? Colors.white
+                                      : (isEnabled
+                                          ? widget.monthTextStyle?.color ??
+                                              Colors.black
+                                          : Colors.grey),
+                                  fontWeight: isSelected
+                                      ? FontWeight.bold
+                                      : widget.monthTextStyle?.fontWeight ??
+                                          FontWeight.normal,
+                                ) ??
+                                TextStyle(
+                                  color: isSelected
+                                      ? Colors.white
+                                      : (isEnabled
+                                          ? Colors.black
+                                          : Colors.grey),
+                                  fontWeight: isSelected
+                                      ? FontWeight.bold
+                                      : FontWeight.normal,
+                                ),
                           ),
                         ),
                       );
                     },
                   ),
                 ),
-                const SizedBox(height: 4,),
-                if(!widget.isAutoSelect)
-                  _buildBottom(context),
+                const SizedBox(
+                  height: 4,
+                ),
+                if (!widget.isAutoSelect) _buildBottom(context),
               ],
             ),
           ),
@@ -165,88 +192,119 @@ class _MpMonthPickerState extends State<MpMonthPicker> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          TextButton(onPressed: Navigator.of(context).pop, child: Text(widget.cancelTxt ?? 'Cancel', style: widget.cancelTxtStyle,)),
-          TextButton(onPressed: (){
-            widget.onMonthChanged(_selectedDate);
-          }, child: Text(widget.doneTxt ?? 'OK', style: widget.doneTxtStyle,)),
-      ],),
+          TextButton(
+              onPressed: Navigator.of(context).pop,
+              child: Text(
+                widget.cancelTxt ?? 'Cancel',
+                style: widget.cancelTxtStyle,
+              )),
+          TextButton(
+              onPressed: () {
+                widget.onMonthChanged(_selectedDate);
+              },
+              child: Text(
+                widget.doneTxt ?? 'OK',
+                style: widget.doneTxtStyle,
+              )),
+        ],
+      ),
     );
   }
 
   Container _buildHeader() {
-    final bool canDecrementYear = DateTime(_selectedDate.year).isAfter(DateTime(_firstDate.year));
-    final bool canIncrementYear = DateTime(_selectedDate.year).isBefore(DateTime(_lastDate.year));
+    final bool canDecrementYear =
+        DateTime(_selectedDate.year).isAfter(DateTime(_firstDate.year));
+    final bool canIncrementYear =
+        DateTime(_selectedDate.year).isBefore(DateTime(_lastDate.year));
 
     return Container(
       height: 54,
       padding: const EdgeInsets.symmetric(vertical: 4),
       decoration: BoxDecoration(
         color: widget.headerBgColor ?? Colors.deepPurple,
-        borderRadius: const BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+        borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(16), topRight: Radius.circular(16)),
       ),
       child: Stack(
         children: [
-          if(canDecrementYear)
+          if (canDecrementYear)
             Positioned(
               left: 0,
               child: IconButton(
                 onPressed: () {
                   setState(() {
                     if (_selectedDate.year > _firstDate.year) {
-                      _selectedDate = DateTime(_selectedDate.year - 1, _selectedDate.month);
+                      _selectedDate =
+                          DateTime(_selectedDate.year - 1, _selectedDate.month);
                     }
 
-                    if (_selectedDate.year == _firstDate.year && _selectedDate.month < _firstDate.month) {
-                      _selectedDate = DateTime(_firstDate.year, _firstDate.month);
+                    if (_selectedDate.year == _firstDate.year &&
+                        _selectedDate.month < _firstDate.month) {
+                      _selectedDate =
+                          DateTime(_firstDate.year, _firstDate.month);
                     }
                   });
                 },
-                icon: Icon(widget.backIcon ?? Icons.arrow_left, color: Colors.white),
+                icon: Icon(widget.backIcon ?? Icons.arrow_left,
+                    color: Colors.white),
               ),
             ),
           Center(
             child: Text(
               "${_selectedDate.year}",
-              style: widget.headerTxtStyle ?? const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+              style: widget.headerTxtStyle ??
+                  const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
               textAlign: TextAlign.center,
             ),
           ),
-          if(canIncrementYear)
+          if (canIncrementYear)
             Positioned(
               right: 0,
               child: IconButton(
                 onPressed: () {
                   setState(() {
                     if (_selectedDate.year < _lastDate.year) {
-                      _selectedDate = DateTime(_selectedDate.year + 1, _selectedDate.month);
+                      _selectedDate =
+                          DateTime(_selectedDate.year + 1, _selectedDate.month);
                     }
 
-                    if (_selectedDate.year == _lastDate.year && _selectedDate.month > _lastDate.month) {
+                    if (_selectedDate.year == _lastDate.year &&
+                        _selectedDate.month > _lastDate.month) {
                       _selectedDate = DateTime(_lastDate.year, _lastDate.month);
                     }
                   });
-                } ,
-                icon: Icon(widget.forwardIcon ?? Icons.arrow_right, color: Colors.white,),
+                },
+                icon: Icon(
+                  widget.forwardIcon ?? Icons.arrow_right,
+                  color: Colors.white,
+                ),
               ),
-          ),
+            ),
         ],
       ),
     );
   }
 
   String _getMonthName(int month) {
-    if (widget.customMonthNames != null && widget.customMonthNames!.length == 12) {
+    if (widget.customMonthNames != null &&
+        widget.customMonthNames!.length == 12) {
       return widget.customMonthNames![month - 1];
     }
 
     final locale = widget.locale?.languageCode ?? 'en';
-    final monthNames = MonthPickerLocale.eng[MonthPickerLocale.monthNames] as List<String>;
+    final monthNames =
+        MonthPickerLocale.eng[MonthPickerLocale.monthNames] as List<String>;
 
     switch (locale) {
       case 'km':
-        return (MonthPickerLocale.kmLocale[MonthPickerLocale.monthNames] as List<String>)[month - 1];
+        return (MonthPickerLocale.kmLocale[MonthPickerLocale.monthNames]
+            as List<String>)[month - 1];
       case 'ja':
-        return (MonthPickerLocale.jaLocale[MonthPickerLocale.monthNames] as List<String>)[month - 1];
+        return (MonthPickerLocale.jaLocale[MonthPickerLocale.monthNames]
+            as List<String>)[month - 1];
       default:
         return monthNames[month - 1];
     }
@@ -260,21 +318,24 @@ class _MpMonthPickerState extends State<MpMonthPicker> {
     if (date.year == widget.firstDate.year) {
       isMonthWithinRange = date.month >= widget.firstDate.month;
     }
+
     /// Case 2: The date is within the same year as lastDate
     else if (date.year == widget.lastDate.year) {
       isMonthWithinRange = date.month <= widget.lastDate.month;
     }
+
     /// Case 3: The date is within the range between firstDate and lastDate spanning across years
-    else if (date.year > widget.firstDate.year && date.year < widget.lastDate.year) {
+    else if (date.year > widget.firstDate.year &&
+        date.year < widget.lastDate.year) {
       isMonthWithinRange = true;
     }
 
     /// Ensure the month is enabled if it matches the initialDate's month and year
-    bool isInitialDateMonth = (date.year == widget.initialDate.year && date.month == widget.initialDate.month);
+    bool isInitialDateMonth = (date.year == widget.initialDate.year &&
+        date.month == widget.initialDate.month);
 
     return isMonthWithinRange || isInitialDateMonth;
   }
-
 }
 
 /// Shows the month picker dialog and returns the selected [DateTime].
@@ -298,7 +359,6 @@ Future<DateTime?> showMpMonthPicker({
   String? cancelTxt,
   String? doneTxt,
   BorderRadiusGeometry? selectedMonthBorderRadius,
-
 }) {
   return showDialog<DateTime>(
     context: context,
@@ -329,29 +389,3 @@ Future<DateTime?> showMpMonthPicker({
     },
   );
 }
-
-mixin MonthPickerLocale {
-  static const String monthNames = 'monthNames';
-
-  static const Map<String, dynamic> eng = {
-    monthNames: [
-      "January", "February", "March", "April", "May", "June",
-      "July", "August", "September", "October", "November", "December"
-    ],
-  };
-
-  static const Map<String, dynamic> kmLocale = {
-    monthNames: [
-      "មករា", "កុម្ភៈ", "មីនា", "មេសា", "ឧសភា", "មិថុនា",
-      "កក្កដា", "សីហា", "កញ្ញា", "តុលា", "វិច្ឆិកា", "ធ្នូ"
-    ],
-  };
-
-  static const Map<String, dynamic> jaLocale = {
-    monthNames: [
-      "1月", "2月", "3月", "4月", "5月", "6月",
-      "7月", "8月", "9月", "10月", "11月", "12月"
-    ],
-  };
-}
-
