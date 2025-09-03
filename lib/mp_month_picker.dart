@@ -4,7 +4,7 @@
 /// and flexible UI components, ideal for scheduling
 /// and date selection features.
 
-library mp_month_picker;
+library;
 
 import 'package:flutter/material.dart';
 
@@ -336,6 +336,64 @@ class _MpMonthPickerState extends State<MpMonthPicker> {
 
     return isMonthWithinRange || isInitialDateMonth;
   }
+}
+
+class MonthPickerLocale {
+  static const String monthNames = "monthNames";
+
+  /// English month names
+  static const Map<String, dynamic> eng = {
+    monthNames: [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ],
+  };
+
+  /// Khmer month names
+  static const Map<String, dynamic> kmLocale = {
+    monthNames: [
+      "មករា",
+      "កម្ភៈ",
+      "មិនា",
+      "មេសា",
+      "ឧសភា",
+      "មិថុនា",
+      "កក្កដា",
+      "សីហា",
+      "កញ្ញា",
+      "តុលា",
+      "វិច្ឆិកា",
+      "ធ្នូ",
+    ],
+  };
+
+  /// Japanese month names
+  static const Map<String, dynamic> jaLocale = {
+    monthNames: [
+      "1月",
+      "2月",
+      "3月",
+      "4月",
+      "5月",
+      "6月",
+      "7月",
+      "8月",
+      "9月",
+      "10月",
+      "11月",
+      "12月",
+    ],
+  };
 }
 
 /// Shows the month picker dialog and returns the selected [DateTime].
